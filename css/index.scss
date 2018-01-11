@@ -1,0 +1,213 @@
+@mixin auto{
+  margin-left: auto;
+  margin-right: auto;
+}
+@mixin percentage{
+  width: 100%;
+  height: 100%;
+}
+@mixin fullPage{
+  position: absolute;
+  left: 0;
+  top:0;
+  right: 0;
+  bottom: 0;
+}
+@mixin widthAuto($left){
+  position: absolute;
+  left: $left;
+  right: 0;
+}
+@mixin centerp{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin centerAuto{
+  position: absolute;
+  left:0;
+  right:0;
+  top:0;
+  bottom: 0;
+  margin: auto;
+}
+@mixin centerTra{
+  position: absolute;
+  left: 50%;
+  top:50%;
+  transform: translate3d(-50%,-50%,0);
+}
+@mixin centerMar($width,$height){
+  position: absolute;
+  left: 50%;
+  top:50%;
+  margin-left: -$width / 2;
+  margin-top: -$height / 2;
+}
+@mixin circle{
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -ms-border-radius:50%;
+
+}
+@mixin borderRadius($radius){
+  border-radius: $radius;
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -ms-border-radius:$radius;
+}
+$width:600px;
+$bg:'../img/';
+$row:15;
+$margin:5px;
+* {
+  margin:0;
+  padding:0;
+  list-style: none;
+}
+html,body{
+  @include percentage;
+}
+body{
+  background: url("#{$bg}bg.jpg") no-repeat center/cover;
+  overflow: hidden;
+  //background-color: #ccc;
+  //@include centerp;
+}
+
+@keyframes diaoluo {
+  0%{
+    transform: translate3d(0,-1000px,0);
+    opacity:0;
+  }
+  100%{
+    transform: translate3d(0,0,0);
+    opacity:1;
+  }
+}
+@keyframes fly {
+  0%{
+    transform: translate3d(-1000px,0,0);
+    opacity:0;
+  }
+  100%{
+    transform: translate3d(0,0,0);
+    opacity:1;
+  }
+}
+@keyframes pointer {
+  from{
+    transform:translate3d(0,-800px,0);
+    opacity:0;
+  }
+  to{
+    transform:translate3d(-50%,-50%,0);
+    opacity:1;
+  }
+}
+.qipan{
+  width: $width;
+  height: $width;
+  background:rgba(204,204,204,.8);
+  position: relative;
+  @include centerTra;
+  .qizi{
+    margin: $margin;
+    width: $width / $row - $margin * 2;
+    height: $width / $row - $margin * 2;
+    float: left;
+    position: relative;
+    z-index: 999;
+    @include circle;
+  }
+  .hei{
+    background: #000;
+  }
+  .bai{
+    background: #fff;
+  }
+  .pointer{
+    width: $width / $row / 6;
+    height: $width / $row / 6;
+    background: #000000;
+    position: absolute;
+    @include circle;
+    z-index: 9999;
+    transform:translate3d(-50%,-50%,0);
+    animation:pointer 2s ease;
+    @for $i from 1 through 5{
+      &:nth-of-type(#{$i}){
+        animation-delay:$i*0.1s;
+      }
+    }
+    &:nth-of-type(1){
+      left:3.5 * $width / $row;
+      top:3.5 * $width / $row;
+    }
+    &:nth-of-type(2){
+      left:11.5 * $width / $row;
+      top:3.5 * $width / $row;
+    }
+    &:nth-of-type(3){
+      left:7.5 * $width / $row;
+      top:7.5 * $width / $row;
+    }
+    &:nth-of-type(4){
+      left:3.5 * $width / $row;
+      top:11.5 * $width / $row;
+    }
+    &:nth-of-type(5){
+      left:11.5 * $width / $row;
+      top:11.5 * $width / $row;
+    }
+  }
+  i{
+    width: $width - $width / $row;
+    height: 1px;
+    background-color: #000000;
+    //transform:translate3d(-50%,-50%,0);
+    position: absolute;
+    left: $width / $row / 2;
+    transform: translate3d(0,-1000px,0);
+  }
+  //竖线
+  b{
+    height: $width - $width / $row;
+    width: 1px;
+    background-color: #000000;
+    //transform:translate3d(-50%,-50%,0);
+    position: absolute;
+    top: $width / $row / 2;
+    transform: translate3d(0,-1000px,0);
+  }
+  @for $i from 1 through $row {
+    i:nth-of-type(#{$i}) {
+      top:(2 * $i - 1) * $width / $row / 2;
+      animation: diaoluo 1s ease $i*0.07s forwards;
+    }
+  }
+  @for $i from 1 through $row{
+    b:nth-of-type(#{$i}){
+      left:(2 * $i - 1) * $width / $row / 2 ;
+      animation: fly 1s ease $i*0.07s forwards;
+    }
+  }
+}
+.btn{
+  position: absolute;
+  top:30%;
+  left:5%;
+}
+section{
+  width:80px;
+  height:30px;
+  font-size:20px;
+  background:#ccc;
+  border:1px solid #ddd;
+  padding:5px 10px;
+  @include borderRadius(10px);
+  text-align:center;
+  margin-top:$margin * 2;
+  cursor: pointer;
+}
